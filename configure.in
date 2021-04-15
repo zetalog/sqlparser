@@ -1,0 +1,269 @@
+
+AC_PREREQ(2.59)
+AC_INIT(dot1x, 1.0.0, eps@soliton.com.cn, dot1x)
+AC_CANONICAL_SYSTEM
+AM_INIT_AUTOMAKE
+AM_CONFIG_HEADER(config.h)
+#AC_PREFIX_DEFAULT(/usr/local)
+
+AC_DEFINE_UNQUOTED(CONFIG_PREFIX, "$prefix", [Define to default htdocs installation.])
+AC_DEFINE_UNQUOTED(CONFIG_SYSCONF_DIR, "$sysconfdir", [Define to default configuration installation.])
+
+AC_ARG_WITH(cgibin,
+[  --with-cgibin=DIR       installing CGI scripts to DIR [/var/epscgi-root]],
+[cgibindir=$withval],[cgibindir=/var/epscgi-root])
+AC_SUBST(cgibindir)
+AC_DEFINE_UNQUOTED(CONFIG_CGIBIN_DIR, "$cgibindir", [Define to default CGI binary installation.])
+
+AC_ARG_WITH(cgidata,
+[  --with-cgidata=DIR       installing CGI data to DIR [PREFIX/cgi]],
+[cgidatadir=$withval],[cgidatadir=${prefix}/cgi])
+AC_SUBST(cgidatadir)
+AC_DEFINE_UNQUOTED(CONFIG_CGIDATA_DIR, "$cgidatadir", [Define to default htdocs/CGI installation.])
+
+AC_DEFINE_UNQUOTED(FREETDS_SYSCONFDIR, "$sysconfdir", [Define to default sysconf file installation.])
+
+# Macros defined by ourselves
+AC_DEFUN([AC_CC_MS_EXTENSIONS],
+[
+  AC_REQUIRE([AC_PROG_CC])
+  if test "x$GCC" = xyes; then
+    if $CC --version | grep '3\.3' > /dev/null; then
+      CFLAGS="$CFLAGS -fms-extensions"
+    fi
+  fi 
+])
+
+AC_DEFUN([AC_CC_WALL],
+[
+  AC_REQUIRE([AC_PROG_CC])
+  CFLAGS="$CFLAGS -Wall"
+])
+
+AC_ARG_ENABLE(debug,
+[  --enable-debug          enable debuging],
+[case "${enableval}" in
+  yes)
+    CFLAGS="$CFLAGS -g"
+    CXXFLAGS="$CXXFLAGS -g"
+    ndebug=no
+    ;;
+  no)
+    ndebug=yes
+    ;;
+  *) AC_MSG_ERROR(bad value ${enableval} for --enable-debug) ;;
+esac])
+if test "x$ndebug" != xno; then
+  AC_DEFINE(NDEBUG, 1, [Define to 1 to disable debug mode])
+fi
+
+# ugly code from libfreetds
+# AC_DEFINE(HAVE_ICONV, 1, [Use glibc iconv])
+
+AC_ARG_ENABLE(develop,
+[  --enable-develop        enable development environment],
+[case "${enableval}" in
+  yes)
+    AC_DEFINE(CONFIG_DEVELOP_BUILD, 1, [Define to 1 to build in development environment])
+    ;;
+  no)
+    ;;
+  *) AC_MSG_ERROR(bad value ${enableval} for --enable-develop) 
+    ;;
+esac])
+
+AC_ARG_ENABLE(mysql,
+[  --enable-mysql          enable MySQL client],
+[case "${enableval}" in
+  yes)
+    sql_mysql=yes
+    AC_DEFINE(CONFIG_SQL_MYSQL, 1, [Define to 1 to enable MySQL client])
+    ;;
+  no)
+    sql_mysql=no
+    ;;
+  *)
+    AC_MSG_ERROR(bad value ${enableval} for --enable-mysql)
+    ;;
+esac])
+AM_CONDITIONAL(MYSQL, test x$sql_mysql = xtrue)
+
+AC_SUBST(CFLAGS)
+# Newer automakes demand CCAS and CCASFLAGS.
+: ${CCAS='$(CC)'}
+: ${CCASFLAGS='-o'}
+AC_SUBST(CCAS)
+AC_SUBST(CCASFLAGS)
+AC_CC_MS_EXTENSIONS
+
+# dealing with cross compiling
+AC_ARG_WITH(cross,
+[  --with-cross=FILE       using cross compiler configuration in FILE],
+[source ${withval}])
+
+AC_ARG_WITH(openldap,
+[  --with-openldap=DIR     using openldap includes/libraries in DIR],
+[OPENLDAP=${withval}])
+AC_SUBST(OPENLDAP)
+
+AC_ARG_WITH(openssl,
+[  --with-openssl=DIR      using openssl includes/libraries in DIR],
+[OPENSSL=${withval}])
+AC_SUBST(OPENSSL)
+
+# Checks for programs.
+AC_PROG_CC
+AC_PROG_LIBTOOL
+#AC_PROG_RANLIB
+AC_PROG_MAKE_SET
+AC_PROG_LN_S
+AM_PROG_LEX
+AC_PROG_YACC
+
+AC_CHECK_TOOL(AS, as)
+AC_SUBST(AS)
+
+AC_ARG_ENABLE(wall,
+[  --enable-wall           enable all warnings],
+[AC_CC_WALL],[])
+
+# Checks for libraries.
+
+# Checks for header files.
+AC_HEADER_DIRENT
+AC_HEADER_STDC
+AC_HEADER_TIME
+AC_HEADER_STAT
+AC_HEADER_SYS_WAIT
+AC_CHECK_HEADERS([signal.h errno.h dirent.h stddef.h malloc.h sys/timeb.h arpa/inet.h fcntl.h limits.h netdb.h netinet/in.h netinet/tcp.h syslog.h utime.h stdlib.h string.h sys/ioctl.h sys/socket.h sys/time.h unistd.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+AC_C_BIGENDIAN
+AC_C_VOLATILE
+AC_C_INLINE
+AC_STRUCT_TM
+AC_TYPE_PID_T
+
+# Checks for library functions.
+AC_FUNC_MEMCMP
+AC_FUNC_MKTIME
+AC_FUNC_FORK
+AC_FUNC_UTIME_NULL
+AC_FUNC_STAT
+AC_FUNC_STRFTIME
+AC_FUNC_VPRINTF
+AC_FUNC_FNMATCH
+AC_CHECK_FUNCS([iconv inet_aton snprintf vsnprintf atexit strerror strstr strrchr inet_ntoa gethostbyname gethostbyaddr strncasecmp strcasecmp strchr strdup getcwd uname utime ftime mkdir gettimeofday memset putenv setenv select socket tzset])
+
+AC_TYPE_SIGNAL
+AC_TYPE_SIZE_T
+AC_TYPE_OFF_T
+
+# ------------------------------------------------------------
+# Checks for integers/floats of different sizes
+# ------------------------------------------------------------
+AC_CHECK_SIZEOF(char)
+AC_CHECK_SIZEOF(short)
+AC_CHECK_SIZEOF(long)
+AC_CHECK_SIZEOF(int)
+AC_CHECK_SIZEOF(float)
+AC_CHECK_SIZEOF(double)
+AC_CHECK_SIZEOF(long double)
+AC_CHECK_SIZEOF(long long)
+AC_CHECK_SIZEOF(__int64)
+AC_CHECK_SIZEOF(void *)
+AC_CHECK_SIZEOF(wchar_t,,[$ac_includes_default
+#ifdef HAVE_WCHAR_H
+#include <wchar.h>
+#endif])
+
+case 2 in
+$ac_cv_sizeof_short)   tds_sysdep_int16_type=short;;
+$ac_cv_sizeof_int)     tds_sysdep_int16_type=int;;
+*)                     AC_ERROR(No 16-bit int found.)
+esac
+
+case 4 in
+$ac_cv_sizeof_short)   tds_sysdep_int32_type=short;;
+$ac_cv_sizeof_int)     tds_sysdep_int32_type=int;;
+$ac_cv_sizeof_long)    tds_sysdep_int32_type=long;;
+*)                     AC_ERROR(No 32-bit int found.)
+esac
+
+case 4 in
+$ac_cv_sizeof_float)       tds_sysdep_real32_type=float;;
+$ac_cv_sizeof_double)      tds_sysdep_real32_type=double;;
+$ac_cv_sizeof_long_double) tds_sysdep_real32_type="long double";;
+*)                     AC_ERROR(No 32-bit real found.)
+esac
+
+case 8 in
+$ac_cv_sizeof_float)       tds_sysdep_real64_type=float;;
+$ac_cv_sizeof_double)      tds_sysdep_real64_type=double;;
+$ac_cv_sizeof_long_double) tds_sysdep_real64_type="long double";;
+*)                     AC_ERROR(No 64-bit real found.)
+esac
+
+case 8 in
+$ac_cv_sizeof_long)      tds_sysdep_int64_type=long;;
+$ac_cv_sizeof_long_long) tds_sysdep_int64_type="long long";;
+$ac_cv_sizeof___int64)   tds_sysdep_int64_type=__int64;;
+esac
+if test "$tds_sysdep_int64_type"; then
+    AC_DEFINE(HAVE_INT64, 1, [Define to 1 if you have a 64-bit integral type.])
+else
+    tds_sysdep_int64_type=long
+    AC_MSG_WARN([SQL Server 2000 "bigint" 8-byte integer will not work])
+fi
+
+case $ac_cv_sizeof_void_p in
+$ac_cv_sizeof_short)     tds_sysdep_intptr_type=short;;
+$ac_cv_sizeof_int)       tds_sysdep_intptr_type=int;;
+$ac_cv_sizeof_long)      tds_sysdep_intptr_type=long;;
+$ac_cv_sizeof_long_long) tds_sysdep_intptr_type="long long";;
+$ac_cv_sizeof___int64)   tds_sysdep_intptr_type=__int64;;
+*)                     AC_ERROR(No intptr type found.)
+esac
+
+AC_SUBST(tds_sysdep_int16_type)
+AC_SUBST(tds_sysdep_int32_type)
+AC_SUBST(tds_sysdep_real32_type)
+AC_SUBST(tds_sysdep_real64_type)
+AC_SUBST(tds_sysdep_int64_type)
+AC_SUBST(tds_sysdep_intptr_type)
+
+AC_CONFIG_FILES([Makefile
+                 include/Makefile
+		 include/tds_sysdep_public.h
+                 scripts/Makefile
+                 lib/Makefile
+                 lib/syslog/Makefile
+                 lib/radius/Makefile
+                 lib/sslca/Makefile
+                 lib/ldap/Makefile
+                 lib/eps/Makefile
+                 lib/gcgi/Makefile
+                 lib/sql/Makefile
+                 lib/tds/Makefile
+                 lib/tds/replacement/Makefile
+                 lib/mysql/Makefile
+                 lib/mysql/lib/Makefile
+                 lib/unicode/Makefile
+		 lib/zlib/Makefile
+		 lib/cmn/Makefile
+		 conf/Makefile
+		 src/Makefile
+		 src/tdstest/Makefile
+		 src/scripts/Makefile
+		 src/scripts/epspass
+		 src/syslogd/Makefile
+		 src/logger/Makefile
+		 src/epsled/Makefile
+		 src/epslic/Makefile
+		 src/epscmd/Makefile
+		 src/liccgi/Makefile
+		 src/epscgi/Makefile])
+AC_OUTPUT
+AC_OUTPUT_COMMANDS([(cd ./src/scripts && chmod +x epspass)])
+

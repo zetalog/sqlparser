@@ -1,0 +1,110 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "buildall"=.\buildall.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name gcgi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name liccgi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sql
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "calc"=.\calc\calc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "cmn"=.\lib\cmn\cmn.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name event
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "event"=.\lib\cmn\event\event.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "sql"=.\lib\sql\sql.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "sqltest"=.\src\sqltest\sqltest.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name sql
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name cmn
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name event
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

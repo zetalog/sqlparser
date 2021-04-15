@@ -1,0 +1,12 @@
+*.plg
+*.ncb
+*.opt
+*.SUP
+obj
+bin
+.deps
+.libs
+Makefile
+Makefile.in
+libcmn.la
+*.lo

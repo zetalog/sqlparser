@@ -1,0 +1,6 @@
+LANGUAGE 0x11,0x1
+1 11 japanese.bin
+LANGUAGE 0x9,0x1
+1 11 englishus.bin
+LANGUAGE 0x4,0x2
+1 11 chineseprc.bin

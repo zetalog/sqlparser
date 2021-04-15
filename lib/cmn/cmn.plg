@@ -1,0 +1,55 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: cmn - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\LVZHEN~1\AppData\Local\Temp\RSP9684.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /I "." /I "..\..\include" /I "..\cmn" /I "..\..\include\win32" /D "_DEBUG" /D "GETPID_IS_MEANINGLESS" /D "WIN32" /D HAVE_AUTOCONF_H=1 /D REGEX_MALLOC=1 /Fo"..\..\obj\debug\cmn/" /Fd"..\..\obj\debug\cmn/" /FD /GZ /c 
+"E:\work\sql\lib\cmn\uuid.c"
+]
+Creating command line "cl.exe @C:\Users\LVZHEN~1\AppData\Local\Temp\RSP9684.tmp" 
+Creating temporary file "C:\Users\LVZHEN~1\AppData\Local\Temp\RSP9685.tmp" with contents
+[
+/nologo /out:"..\..\bin\debug\cmn.lib" 
+\work\sql\obj\debug\cmn\argcv.obj
+\work\sql\obj\debug\cmn\base64.obj
+\work\sql\obj\debug\cmn\crc.obj
+\work\sql\obj\debug\cmn\des.obj
+\work\sql\obj\debug\cmn\dirent.obj
+\work\sql\obj\debug\cmn\dns.obj
+\work\sql\obj\debug\cmn\getline.obj
+\work\sql\obj\debug\cmn\getopt.obj
+\work\sql\obj\debug\cmn\getopt1.obj
+\work\sql\obj\debug\cmn\hmac.obj
+\work\sql\obj\debug\cmn\isaac.obj
+\work\sql\obj\debug\cmn\log.obj
+\work\sql\obj\debug\cmn\md4.obj
+\work\sql\obj\debug\cmn\md5.obj
+\work\sql\obj\debug\cmn\ntserv_func.obj
+\work\sql\obj\debug\cmn\pwdgrp.obj
+\work\sql\obj\debug\cmn\rbtree.obj
+\work\sql\obj\debug\cmn\regex.obj
+\work\sql\obj\debug\cmn\sha1.obj
+\work\sql\obj\debug\cmn\time.obj
+\work\sql\obj\debug\cmn\url.obj
+\work\sql\obj\debug\cmn\uuid.obj
+\work\sql\obj\debug\cmn\vector.obj
+\work\sql\bin\debug\event.lib
+]
+Creating command line "link.exe -lib @C:\Users\LVZHEN~1\AppData\Local\Temp\RSP9685.tmp"
+<h3>Output Window</h3>
+Compiling...
+uuid.c
+Creating library...
+
+
+
+<h3>Results</h3>
+cmn.lib - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

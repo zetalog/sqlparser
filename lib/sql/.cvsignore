@@ -1,0 +1,17 @@
+*.plg
+*.ncb
+*.opt
+*.SUP
+*.lo
+.libs
+obj
+bin
+.deps
+Makefile
+Makefile.in
+parse.tab.c
+parse.tab.h
+sql_parse.h
+lex.scan.c
+parse.output
+libsql.la
